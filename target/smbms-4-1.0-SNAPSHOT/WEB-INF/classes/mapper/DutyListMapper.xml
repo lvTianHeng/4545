@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysh.cs.smbms.dao.DutyListMapper">
+  <resultMap id="BaseResultMap" type="com.bysh.cs.smbms.pojo.DutyList">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="DATE" property="createtime" />
+    <result column="updateTime" jdbcType="DATE" property="updatetime" />
+    <result column="duty_month_id" jdbcType="BIGINT" property="dutyMonthId" />
+    <result column="sys_user_id" jdbcType="BIGINT" property="sysUserId" />
+    <result column="dutyDate" jdbcType="VARCHAR" property="dutydate" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from duty_list
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bysh.cs.smbms.pojo.DutyList">
+    insert into duty_list (id, createTime, updateTime, 
+      duty_month_id, sys_user_id, dutyDate
+      )
+    values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE}, 
+      #{dutyMonthId,jdbcType=BIGINT}, #{sysUserId,jdbcType=BIGINT}, #{dutydate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bysh.cs.smbms.pojo.DutyList">
+    update duty_list
+    set createTime = #{createtime,jdbcType=DATE},
+      updateTime = #{updatetime,jdbcType=DATE},
+      duty_month_id = #{dutyMonthId,jdbcType=BIGINT},
+      sys_user_id = #{sysUserId,jdbcType=BIGINT},
+      dutyDate = #{dutydate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, createTime, updateTime, duty_month_id, sys_user_id, dutyDate
+    from duty_list
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, createTime, updateTime, duty_month_id, sys_user_id, dutyDate
+    from duty_list
+  </select>
+
+  <select id="selectByDateAndName" resultType="com.bysh.cs.smbms.pojo.DutyList">
+
+    select d.dutyDate,u.userName,u.tel,u.job
+    from duty_list d join sys_user u on d.sys_user_id = u.id
+    <where>
+      <if test="date != null and date !=''">
+        d.dutyDate like concat(#{date},'%')
+      </if>
+      <if test="name != null and name !=''">
+        and u.userName like concat
+        ('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

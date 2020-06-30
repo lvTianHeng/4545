@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysh.cs.smbms.dao.DutyMonthMapper">
+  <resultMap id="BaseResultMap" type="com.bysh.cs.smbms.pojo.DutyMonth">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="DATE" property="createtime" />
+    <result column="updateTime" jdbcType="DATE" property="updatetime" />
+    <result column="yearMonth" jdbcType="VARCHAR" property="yearmonth" />
+    <result column="dayNum" jdbcType="INTEGER" property="daynum" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from duty_month
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bysh.cs.smbms.pojo.DutyMonth">
+    insert into duty_month (id, createTime, updateTime, 
+      yearMonth, dayNum)
+    values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE}, 
+      #{yearmonth,jdbcType=VARCHAR}, #{daynum,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bysh.cs.smbms.pojo.DutyMonth">
+    update duty_month
+    set createTime = #{createtime,jdbcType=DATE},
+      updateTime = #{updatetime,jdbcType=DATE},
+      yearMonth = #{yearmonth,jdbcType=VARCHAR},
+      dayNum = #{daynum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, createTime, updateTime, yearMonth, dayNum
+    from duty_month
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, createTime, updateTime, yearMonth, dayNum
+    from duty_month
+  </select>
+
+  <delete id="deleteByDutyMonth">
+    delete from duty_month
+    where yearMonth = #{date}
+  </delete>
+</mapper>

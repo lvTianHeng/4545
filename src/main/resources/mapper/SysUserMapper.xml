@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bysh.cs.smbms.dao.SysUserMapper">
+  <resultMap id="BaseResultMap" type="com.bysh.cs.smbms.pojo.SysUser">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="createTime" jdbcType="DATE" property="createtime" />
+    <result column="updateTime" jdbcType="DATE" property="updatetime" />
+    <result column="loginName" jdbcType="VARCHAR" property="loginname" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="job" jdbcType="VARCHAR" property="job" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="userRole" jdbcType="INTEGER" property="userrole" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bysh.cs.smbms.pojo.SysUser">
+    insert into sys_user (id, createTime, updateTime, 
+      loginName, pwd, userName, 
+      job, tel, userRole)
+    values (#{id,jdbcType=BIGINT}, #{createtime,jdbcType=DATE}, #{updatetime,jdbcType=DATE}, 
+      #{loginname,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
+      #{job,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{userrole,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.bysh.cs.smbms.pojo.SysUser">
+    update sys_user
+    set createTime = #{createtime,jdbcType=DATE},
+      updateTime = #{updatetime,jdbcType=DATE},
+      loginName = #{loginname,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      userName = #{username,jdbcType=VARCHAR},
+      job = #{job,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      userRole = #{userrole,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, createTime, updateTime, loginName, pwd, userName, job, tel, userRole
+    from sys_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, createTime, updateTime, loginName, pwd, userName, job, tel, userRole
+    from sys_user
+  </select>
+  <select id="selectByLoginName" resultMap="BaseResultMap">
+     select id, createTime, updateTime, loginName, pwd, userName, job, tel, userRole
+    from sys_user
+    where loginName = #{loginName}
+  </select>
+  <select id="selectByNameAndTel" resultType="sysUser">
+    select id, createTime, updateTime, loginName, pwd, userName, job, tel, userRole
+    from sys_user
+    <where>
+      <if test="username!= null and username!=''" >
+        username like concat('%',#{username},'%')
+      </if>
+      <if test="usertel != null and usertel != ''">
+        and tel like concat('%',#{usertel},'%')
+      </if>
+    </where>
+
+  </select>
+  <select id="selectByUsername" resultType="sysUser">
+    select id, createTime, updateTime, loginName, pwd, userName, job, tel, userRole
+    from sys_user where userName = #{username};
+  </select>
+</mapper>

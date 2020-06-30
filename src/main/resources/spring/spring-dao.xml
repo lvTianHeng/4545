@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--扫描dao层-->
+    <!--<context:component-scan base-package="com.bysh.cs.smbms.dao"/>-->
+
+    <!--导入配置文件-->
+    <context:property-placeholder location="classpath:config/jdbc.properties"/>
+
+    <!--配置数据源，使用druid连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--其他配置-->
+    </bean>
+
+    <!--配置sqlSessionFactory-->
+    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--配置数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--配置别名-->
+        <property name="typeAliasesPackage" value="com.bysh.cs.smbms.pojo"/>
+        <!--配置mapper映射文件-->
+        <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
+        <!--分页插件-->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <value>
+                            helperDialect=mysql
+                            reasonable=true
+                            supportMethodsArguments=true
+                            params=count=countSql
+                            autoRuntimeDialect=true
+                        </value>
+                    </property>
+                </bean>
+            </array>
+        </property>
+    </bean>
+
+    <!--配置mybatis扫描器-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--需要扫描的包-->
+        <property name="basePackage" value="com.bysh.cs.smbms.dao"/>
+    </bean>
+
+</beans>
