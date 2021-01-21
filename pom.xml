@@ -23,7 +23,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <druid.verison>1.1.10</druid.verison>
         <pagehelper.version>5.1.4</pagehelper.version>
-        <jackson.verison>2.9.5</jackson.verison>
+        <jackson.verison>2.9.10.7</jackson.verison>
     </properties>
 
     <!--配置依赖-->
