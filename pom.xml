@@ -13,7 +13,7 @@
 
     <!--配置统一的版本号-->
     <properties>
-        <spring.verion>5.0.7.RELEASE</spring.verion>
+        <spring.verion>5.2.20.RELEASE</spring.verion>
         <mysql.version>5.1.46</mysql.version>
         <junit.version>4.12</junit.version>
         <servlet.verion>4.0.1</servlet.verion>
